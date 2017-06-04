@@ -92,9 +92,9 @@ class RegisterCachePools extends Event
         if (!is_subclass_of($class, PoolInterface::class)) {
             Craft::error(
                 sprintf(
-                "Cache pool class '%s' is not an instances of %s",
+                    "Cache pool class '%s' is not an instances of %s",
                     (string)$class,
-                PoolInterface::class
+                    PoolInterface::class
                 ),
                 'PSR-6'
             );
