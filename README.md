@@ -4,7 +4,7 @@
 [![Build Status](https://img.shields.io/travis/flipbox/craft-psr6/master.svg?style=flat-square)](https://travis-ci.org/flipbox/craft-psr6)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/flipbox/craft-psr6.svg?style=flat-square)](https://scrutinizer-ci.com/g/flipbox/craft-psr6/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/flipbox/craft-psr6.svg?style=flat-square)](https://scrutinizer-ci.com/g/flipbox/craft-psr6)
-[![Total Downloads](https://img.shields.io/packagist/dt/flipboxdigital/craft-psr6.svg?style=flat-square)](https://packagist.org/packages/flipbox/craft-psr6)
+[![Total Downloads](https://img.shields.io/packagist/dt/flipboxdigital/craft-psr6.svg?style=flat-square)](https://packagist.org/packages/flipboxdigital/craft-psr6)
 
 This package provides simple mechanism for PSR-6 Cache via Craft CMS.
 
