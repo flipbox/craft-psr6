@@ -17,6 +17,8 @@ use Stash\Driver\FileSystem;
 use Stash\Interfaces\DriverInterface;
 use Stash\Interfaces\PoolInterface;
 use yii\base\Component;
+use yii\caching\FileCache;
+use yii\log\Logger;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -33,6 +35,11 @@ class Cache extends Component
      * The event name
      */
     const EVENT_REGISTER_CACHE_POOLS = 'registerCachePools';
+
+    /**
+     * @var DriverInterface
+     */
+    public $applicationDriver;
 
     /**
      * @return PoolInterface[]
@@ -105,14 +112,59 @@ class Cache extends Component
      */
     protected function getApplicationDriver()
     {
-        // Todo - support all the native Craft cache methods
+        if($this->applicationDriver instanceof DriverInterface) {
+            return $this->applicationDriver;
+        }
 
-        // File cache config
-        $fileCacheConfig = Craft::$app->getConfig()->getFileCache();
+        // Nothing set
+        if($this->applicationDriver === null) {
+            $this->applicationDriver = $this->resolveApplicationDriver();
+        }
 
-        return new FileSystem([
-            'path' => Craft::getAlias($fileCacheConfig->cachePath)
-        ]);
+        // Config
+        if(is_array($this->applicationDriver)) {
+            $this->applicationDriver = $this->createDriver(
+                $this->applicationDriver
+            );
+        }
+
+        return $this->applicationDriver;
+    }
+
+    /**
+     * @return BlackHole|FileSystem
+     */
+    private function resolveApplicationDriver()
+    {
+        $cacheInterface = Craft::$app->getCache();
+
+        // Todo - support other drivers
+        if($cacheInterface instanceof FileCache) {
+            return new FileSystem([
+                'path' => Craft::getAlias($cacheInterface->cachePath)
+            ]);
+        }
+
+        Craft::getLogger()->log(
+            sprintf(
+                "Cache method '{cacheMethod}' is not supported.",
+                get_class($cacheInterface)
+            ),
+            Logger::LEVEL_WARNING
+        );
+
+        return new BlackHole();
+    }
+
+    /**
+     * @param array $config
+     * @return object
+     */
+    private function createDriver(array $config)
+    {
+        return Craft::createObject(
+            $config
+        );
     }
 
     /**
