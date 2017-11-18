@@ -112,17 +112,17 @@ class Cache extends Component
      */
     protected function getApplicationDriver()
     {
-        if($this->applicationDriver instanceof DriverInterface) {
+        if ($this->applicationDriver instanceof DriverInterface) {
             return $this->applicationDriver;
         }
 
         // Nothing set
-        if($this->applicationDriver === null) {
+        if ($this->applicationDriver === null) {
             $this->applicationDriver = $this->resolveApplicationDriver();
         }
 
         // Config
-        if(is_array($this->applicationDriver)) {
+        if (is_array($this->applicationDriver)) {
             $this->applicationDriver = $this->createDriver(
                 $this->applicationDriver
             );
@@ -139,7 +139,7 @@ class Cache extends Component
         $cacheInterface = Craft::$app->getCache();
 
         // Todo - support other drivers
-        if($cacheInterface instanceof FileCache) {
+        if ($cacheInterface instanceof FileCache) {
             return new FileSystem([
                 'path' => Craft::getAlias($cacheInterface->cachePath)
             ]);
